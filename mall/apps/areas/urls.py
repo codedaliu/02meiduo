@@ -2,7 +2,9 @@ from rest_framework.routers import DefaultRouter
 
 from areas.views import AreaModelViewSet
 
-urlpatterns=[]
+urlpatterns=[
+
+]
 router = DefaultRouter()
 
 #注册路由
