@@ -4,7 +4,7 @@ from goods.models import GoodsChannel
 from .models import ContentCategory
 from collections import OrderedDict
 from django.template import loader
-from django.conf import settings
+from mall import settings
 
 
 

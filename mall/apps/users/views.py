@@ -141,7 +141,7 @@ class UserEmailInfoAPIView(UpdateAPIView):
         print('laile laile')
         return self.request.user
 
-#验证当前用户的
+#验证当前用户的邮件
 class UserEmailVerificationAPIView(APIView):
 
     def get(self,request):
@@ -163,7 +163,7 @@ class UserEmailVerificationAPIView(APIView):
         #返回相应
         return Response({'msg':'ok'})
 
-from rest_framework.generics import CreateAPIView
+from rest_framework.generics import CreateAPIView,DestroyAPIView
 #新增地址
 #新增地址
 '''
@@ -180,9 +180,12 @@ from rest_framework.generics import CreateAPIView
 ３．数据入库
 ４．返回相应'''
 
-class UserAddressAPIView(CreateAPIView):
+class UserAddressAPIView(CreateAPIView,DestroyAPIView):
 
     serializer_class = AddressSerializer
+
+#删除地址
+# class UseraAddressAPIView()
 
 
 

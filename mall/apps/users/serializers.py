@@ -174,5 +174,11 @@ class AddressSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         validated_data['user']=self.context['request'].user
+        # return Address.objects.create(**validated_data)
+
         return super().create(validated_data)
+
+    def delete(self,validated_data):
+        validated_data['user']=self.context['request'].user
+        return super().destroy(validated_data)
 

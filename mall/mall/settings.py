@@ -73,6 +73,14 @@ INSTALLED_APPS = [
     'django_crontab',  # 定时任务
 ]
 
+CRONJOBS = [
+    # 每5分钟执行一次生成主页静态文件
+    # 参数1:定义任务的频次 分时日月周
+    # 参数2:任务(函数)
+    # 参数3: 日志路径(必须正确)
+    ('*/1 * * * *', 'contents.crons.generate_static_index_html', '>> /home/python/lpf/编程文件/Django/02meiduo/mall/logs/crontab.log')
+]
+
 MIDDLEWARE = [
     #跨站请求必须在最上面
     'corsheaders.middleware.CorsMiddleware',
@@ -92,7 +100,7 @@ ROOT_URLCONF = 'mall.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR,'tamplates')],
+        'DIRS': [os.path.join(BASE_DIR,'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -240,7 +248,7 @@ REST_FRAMEWORK = {
     ),
 }
 import datetime
-
+#设置JWT
 JWT_AUTH = {
     'JWT_EXPIRATION_DELTA': datetime.timedelta(days=1),
     'JWT_RESPONSE_PAYLOAD_HANDLER':
@@ -295,17 +303,10 @@ CKEDITOR_UPLOAD_PATH = ''  # 上传图片保存路径，使用了FastDFS，所�
 # django文件存储
 DEFAULT_FILE_STORAGE = 'utils.fastdfs.storage.MyStorage'
 
-# FastDFS
-FDFS_URL = 'http://192.154.128:8888/'  # 访问图片的路径域名 ip地址修改为自己机器的ip地址
+# FastDFS192.168.154.128
+FDFS_URL = 'http://192.168.154.128:8888/'  # 访问图片的路径域名 ip地址修改为自己机器的ip地址
 FDFS_CLIENT_CONF = os.path.join(BASE_DIR, 'utils/fastdfs/client.conf')
 
 # 生成的静态html文件保存目录
-GENERATED_STATIC_HTML_FILES_DIR = os.path.join(os.path.dirname(BASE_DIR), 'front')
+GENERATED_STATIC_HTML_FILES_DIR = os.path.join(os.path.dirname(BASE_DIR),'front')
 
-CRONJOBS = [
-    # 每5分钟执行一次生成主页静态文件
-    # 参数1:定义任务的频次 分时日月周
-    # 参数2:任务(函数)
-    # 参数3: 日志路径(必须正确)
-    ('*/1 * * * *', 'contents.crons.generate_static_index_html', '>> /home/python/lpf/编程文件/Django/02meiduo/mall/logs/crontab.log')
-]
