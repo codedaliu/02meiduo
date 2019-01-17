@@ -14,7 +14,7 @@ app = Celery(main='celery_tasks')
 app.config_from_object('celery_tasks.config')
 
 #让ｃｅｌｅｒｙ自己检测
-app.autodiscover_tasks(['celery_tasks.sms','celery_tasks.mall'])
+app.autodiscover_tasks(['celery_tasks.sms','celery_tasks.mall','celery_tasks.html'])
 
 #让worker执行人物
 # celery -A celery_tasks.main worker -l info

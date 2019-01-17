@@ -4,7 +4,7 @@ from goods.models import GoodsChannel
 from .models import ContentCategory
 from collections import OrderedDict
 from django.template import loader
-from mall import settings
+from django.conf import settings
 
 
 
@@ -83,6 +83,7 @@ def generate_static_index_html():
 
     #3. 指定写入路径
     file_path = os.path.join(settings.GENERATED_STATIC_HTML_FILES_DIR,'index.html')
+    print('来了来了')
 
     #4. 写入
     with open(file_path,'w') as f:
