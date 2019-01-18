@@ -1,7 +1,9 @@
 import re
 
+from django_redis import get_redis_connection
 from rest_framework import serializers
 
+from goods.models import SKU
 from mall import settings
 from users.models import User, Address
 from users.utils import generic_verify_url
@@ -181,4 +183,47 @@ class AddressSerializer(serializers.ModelSerializer):
     def delete(self,validated_data):
         validated_data['user']=self.context['request'].user
         return super().destroy(validated_data)
+
+    from goods.models import SKU
+    from django_redis import get_redis_connection
+
+class AddUserBrowsingHistorySerializer(serializers.Serializer):
+    """
+
+    添加用户浏览记录序列化器
+    """
+    sku_id = serializers.IntegerField(label='商品编号', min_value=1, required=True)
+
+    def validate_sku_id(self, value):
+        """
+        检查商品是否存在
+        """
+        try:
+            SKU.objects.get(pk=value)
+        except SKU.DoesNotExist:
+            raise serializers.ValidationError('商品不存在')
+
+        return value
+
+    def create(self, validated_data):
+        sku_id = validated_data['sku_id']
+        user = self.context['request'].user
+        #链接ｒｅｄｉｓ
+        redis_conn = get_redis_connection('history')
+        #查看用户是否保存过这天记录　如果有　先删除
+        #删除已经有的当前商品的ｉｄ
+        # 0代表把所有的都删掉
+        redis_conn.lrem('history_%s'%user.id,0,sku_id)
+        #添加到左边
+        redis_conn.lpush('history_%s'%user.id,sku_id)
+
+
+        return validated_data
+
+
+
+class SKUSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SKU
+        fields = ('id', 'name', 'price', 'default_image_url', 'comments')
 

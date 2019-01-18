@@ -11,8 +11,10 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from goods.models import SKU
 from libs.captcha.captcha import captcha
-from users.serializers import UserCenterInfoSerializer, UserEmailInfoSerializer, AddressSerializer
+from users.serializers import UserCenterInfoSerializer, UserEmailInfoSerializer, AddressSerializer, \
+    AddUserBrowsingHistorySerializer, SKUSerializer
 from users.models import User
 from users.serializers import RegiserUserSerializer
 from users.utils import check_token
@@ -187,6 +189,41 @@ class UserAddressAPIView(CreateAPIView,DestroyAPIView):
 #删除地址
 # class UseraAddressAPIView()
 
+
+from rest_framework.generics import CreateAPIView
+class UserHistoryAPIVIew(CreateAPIView):
+
+    permission_classes = [IsAuthenticated]
+    serializer = AddUserBrowsingHistorySerializer
+
+
+from rest_framework import mixins
+from rest_framework.generics import GenericAPIView
+
+
+class UserBrowsingHistoryView(mixins.CreateModelMixin, GenericAPIView):
+    serializers_class = AddUserBrowsingHistorySerializer
+    permission_classes = [IsAuthenticated]
+
+    def post(self,request):
+        return self.create(request)
+
+    def get(self,request):
+        #获取用户user_id
+        user_id = request.user.id
+        #链接ｒｅｄｉｓ
+        redis_conn = get_redis_connection('history')
+        #获取数据
+        history_sku_ids = redis_conn.lrange('hsitory_%s'%user_id,0,5)
+        skus = []
+        for sku_id in history_sku_ids:
+            sku = SKU.objects.get(pk=sku_id)
+            skus.append((sku))
+
+        #实现序列化器
+        serializers = SKUSerializer(skus,many=True)
+
+        return Response(serializers.data,safe=False)
 
 
 

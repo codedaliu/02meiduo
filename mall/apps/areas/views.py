@@ -10,6 +10,7 @@ from rest_framework_extensions.cache.mixins import RetrieveCacheResponseMixin
 from rest_framework_extensions.cache.mixins import CacheResponseMixin
 
 class AreaModelViewSet(CacheResponseMixin,ReadOnlyModelViewSet):
+    pagination_class = None
 
     def get_queryset(self):
 

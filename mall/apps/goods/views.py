@@ -36,6 +36,7 @@ class HotSKUListAPIView(ListAPIView):
     serializer_class = HotSKUListSerializer
 # 分类排行
 class SKUListView(ListAPIView):
+
     # 添加排序
     filter_backends = [OrderingFilter]
     ordering_fields = ['create_time', 'sales', 'price']
@@ -48,3 +49,14 @@ class SKUListView(ListAPIView):
 
         return SKU.objects.filter(category=category_id)
 
+
+from .serializers import SKUIndexSerializer
+from drf_haystack.viewsets import HaystackViewSet
+
+class SKUSearchViewSet(HaystackViewSet):
+    """
+    SKU搜索
+    """
+    index_models = [SKU]
+
+    serializer_class = SKUIndexSerializer
