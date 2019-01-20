@@ -18,14 +18,6 @@ class GoodsCategoryAdmin(admin.ModelAdmin):
 admin.site.register(models.GoodsCategory,GoodsCategoryAdmin)
 
 
-
-from django.contrib import admin
-
-# Register your models here.
-
-from . import models
-
-
 class SKUAdmin(admin.ModelAdmin):
     def save_model(self, request, obj, form, change):
         obj.save()

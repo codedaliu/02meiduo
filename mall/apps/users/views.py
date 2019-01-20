@@ -202,7 +202,7 @@ from rest_framework.generics import GenericAPIView
 
 
 class UserBrowsingHistoryView(mixins.CreateModelMixin, GenericAPIView):
-    serializers_class = AddUserBrowsingHistorySerializer
+    serializer_class = AddUserBrowsingHistorySerializer
     permission_classes = [IsAuthenticated]
 
     def post(self,request):
@@ -223,7 +223,7 @@ class UserBrowsingHistoryView(mixins.CreateModelMixin, GenericAPIView):
         #实现序列化器
         serializers = SKUSerializer(skus,many=True)
 
-        return Response(serializers.data,safe=False)
+        return Response(serializers.data)
 
 
 
