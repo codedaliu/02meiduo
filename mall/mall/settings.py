@@ -68,6 +68,7 @@ INSTALLED_APPS = [
     'areas.apps.AreasConfig',
     'goods.apps.GoodsConfig',
     'contents.apps.ContentsConfig',
+    'orders.apps.OrdersConfig',
     'ckeditor',  # 富文本编辑器
     'ckeditor_uploader',  # 富文本编辑器上传图片模块
     'django_crontab',  # 定时任务
@@ -340,3 +341,18 @@ HAYSTACK_CONNECTIONS = {
 }
 # 当添加、修改、删除数据时，自动生成索引
 HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
+
+# 支付宝
+ALIPAY_APPID = "2016091600523030"
+ALIPAY_URL = "https://openapi.alipaydev.com/gateway.do"
+ALIPAY_DEBUG = True
+APP_PRIVATE_KEY_PATH = os.path.join(BASE_DIR, 'apps/pay/keys/app_private_key.pem')
+ALIPAY_PUBLIC_KEY_PATH = os.path.join(BASE_DIR, 'apps/pay/keys/alipay_public_key.pem')
+
+
+#收集静态文件目录
+STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'front/static')
+
+#静态的配置
+# 我们在浏览器中输入　www.meiduo.site 所有以 www.meiduo.site 开始的资源都是静态资源
+# 浏览器的请求 --> Nginx --> 静态资源文件夹就可以了

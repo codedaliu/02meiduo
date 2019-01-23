@@ -27,3 +27,18 @@ class CartSKUSerializer(serializers.ModelSerializer):
     class Meta:
         model = SKU
         fields = ('id','count', 'name', 'default_image_url', 'price', 'selected')
+
+
+class CartDeleteSerialzier(serializers.Serializer):
+    sku_id = serializers.IntegerField(label='商品id',required=True)
+
+
+    def validate(self, attrs):
+        sku_id = attrs['sku_id']
+        try:
+            SKU.objects.get(pk=sku_id)
+        except SKU.DoesNotExist:
+            raise serializers.ValidationError('商品不存在')
+
+
+        return attrs

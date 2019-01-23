@@ -184,6 +184,15 @@ class AddressSerializer(serializers.ModelSerializer):
         validated_data['user']=self.context['request'].user
         return super().destroy(validated_data)
 
+class AddressTitleSerializer(serializers.ModelSerializer):
+    """
+    地址标题
+    """
+
+    class Meta:
+        model = Address
+        fields = ('title',)
+
     from goods.models import SKU
     from django_redis import get_redis_connection
 

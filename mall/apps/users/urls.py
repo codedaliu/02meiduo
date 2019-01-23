@@ -16,10 +16,16 @@ urlpatterns = [
     url(r'^infos/$', views.UserCenterInfoAPIView.as_view()),
     url(r'^emails/$', views.UserEmailInfoAPIView.as_view()),
     url(r'^emails/verification/$', views.UserEmailVerificationAPIView.as_view()),
-    url(r'^addresses/$', views.UserAddressAPIView.as_view()),
+
 
     # /users/browerhistories/
     url(r'^browerhistories/$', views.UserBrowsingHistoryView.as_view(), name='history'),
 
 
 ]
+
+from .views import AddressViewSet
+from rest_framework.routers import DefaultRouter
+router = DefaultRouter()
+router.register(r'addresses',AddressViewSet,base_name='address')
+urlpatterns += router.urls
