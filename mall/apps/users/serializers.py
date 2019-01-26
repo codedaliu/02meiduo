@@ -115,7 +115,7 @@ class RegiserUserSerializer(serializers.ModelSerializer):
 
 
 # ==========邮箱发送
-
+# 用户中心
 class UserCenterInfoSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -235,4 +235,16 @@ class SKUSerializer(serializers.ModelSerializer):
     class Meta:
         model = SKU
         fields = ('id', 'name', 'price', 'default_image_url', 'comments')
+
+#创建修改密码序列化器
+class UserUpdatePasswordSerializer(serializers.Serializer):
+    old_password = serializers.CharField(label='旧密码',required=True,max_length=20,min_length=8)
+    password = serializers.CharField(label='新密码',required=True,max_length=20,min_length=8)
+    password2 = serializers.CharField(label='确认新密码',required=True,max_length=20,min_length=8)
+
+
+
+
+
+
 

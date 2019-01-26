@@ -1,6 +1,5 @@
-
+# -*- coding: utf-8 -*-
 from django.http import HttpResponse
-from django.shortcuts import render
 
 # Create your views here.
 from django_redis import get_redis_connection
@@ -17,7 +16,7 @@ from rest_framework.viewsets import GenericViewSet
 from goods.models import SKU
 from libs.captcha.captcha import captcha
 from users.serializers import UserCenterInfoSerializer, UserEmailInfoSerializer, AddressSerializer, \
-    AddUserBrowsingHistorySerializer, SKUSerializer, AddressTitleSerializer
+    AddUserBrowsingHistorySerializer, SKUSerializer, AddressTitleSerializer, UserUpdatePasswordSerializer
 from users.models import User
 from users.serializers import RegiserUserSerializer
 from users.utils import check_token
@@ -266,7 +265,7 @@ class AddressViewSet(mixins.ListModelMixin,mixins.CreateModelMixin,mixins.Update
 #删除地址
 # class UseraAddressAPIView()
 
-
+#用户访问历史
 from rest_framework.generics import CreateAPIView
 class UserHistoryAPIVIew(CreateAPIView):
 
@@ -302,7 +301,7 @@ class UserBrowsingHistoryView(mixins.CreateModelMixin, GenericAPIView):
 
         return Response(serializers.data)
 
-
+#重写登录方法
 from rest_framework_jwt.views import ObtainJSONWebToken
 class MergeLoginAPVIiew(ObtainJSONWebToken):
 
@@ -318,6 +317,19 @@ class MergeLoginAPVIiew(ObtainJSONWebToken):
             user = serializer.validated_data.get('user')
             #合并购物车
         return response
+
+
+class UserUpdatePasswordAPIView(APIView):
+    #判断权限　需要时登录用户
+    permission_classes = [IsAuthenticated]
+    def put(self,request):
+
+        user_id = request.query_parmas.get('user_id')
+
+        data = request.data
+        serializers = UserUpdatePasswordSerializer(data=data)
+        serializers.is_valid(raise_exception=True)
+
 
 
 

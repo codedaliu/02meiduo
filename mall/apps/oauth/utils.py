@@ -24,7 +24,7 @@ def check_access_token(access_token):
     except BaseException:
         return None
     # 返回openid  data 就是自己定义的字典
-    return data['openid']
+    return data['access_token']
 
 def generic_token(user):
     from rest_framework_jwt.settings import api_settings
@@ -35,3 +35,15 @@ def generic_token(user):
     payload = jwt_payload_handler(user)
     token = jwt_encode_handler(payload)
     return token
+
+def generic_access_token(access_token):
+    # 创建一个序列化器　secret_key秘钥
+    # expires_in 过期时间　单位是秒
+    s = Serializer(secret_key=settings.SECRET_KEY, expires_in=3600)
+    # 组织数据
+    data = {
+        'access_token': access_token
+    }
+    # ３．让序列化器对数据进行处理
+    token = s.dumps(data)
+    return token.decode()

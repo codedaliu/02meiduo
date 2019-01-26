@@ -1,4 +1,6 @@
+# -*- coding: utf-8 -*-
 from django.conf.urls import url
+
 from rest_framework_jwt.views import obtain_jwt_token
 
 from users.views import UserCenterInfoAPIView
@@ -16,6 +18,7 @@ urlpatterns = [
     url(r'^infos/$', views.UserCenterInfoAPIView.as_view()),
     url(r'^emails/$', views.UserEmailInfoAPIView.as_view()),
     url(r'^emails/verification/$', views.UserEmailVerificationAPIView.as_view()),
+    url(r'^/users/(?P<user_id>)/password/$', views.UserUpdatePasswordAPIView.as_view()),
 
 
     # /users/browerhistories/

@@ -81,7 +81,7 @@ CRONJOBS = [
     # 参数1:定义任务的频次 分时日月周
     # 参数2:任务(函数)
     # 参数3: 日志路径(必须正确)
-    ('*/1 * * * *', 'contents.crons.generate_static_index_html', '>> /home/python/lpf/编程文件/Django/02meiduo/mall/logs/crontab.log')
+    ('*/5 * * * *', 'contents.crons.generate_static_index_html', '>> /home/python/lpf/编程文件/Django/02meiduo/mall/logs/crontab.log')
 ]
 
 MIDDLEWARE = [
